@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2021届9班班级网站 - 工具</title>
+    <style>
+        /* 基础样式（和首页一致，保证风格统一） */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft Yahei', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        /* 日间模式（蓝白） */
+        body {
+            --primary-color: #165DFF;
+            --secondary-color: #FFFFFF;
+            --text-color: #333333;
+            --bg-color: #F5F7FA;
+            --card-bg: #FFFFFF;
+            --border-color: #E5E9F2;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+            /* 夜间模式（黑金） */
+            body.night-mode {
+                --primary-color: #D4AF37;
+                --secondary-color: #1A1A1A;
+                --text-color: #F5F5F5;
+                --bg-color: #0A0A0A;
+                --card-bg: #2D2D2D;
+                --border-color: #444444;
+            }
+
+        /* 导航栏样式（和首页一致） */
+        .navbar {
+            background-color: var(--secondary-color);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+            .nav-links a {
+                text-decoration: none;
+                color: var(--primary-color);
+                font-weight: 600;
+                font-size: 1.1rem;
+                padding: 0.5rem 1rem;
+                border-radius: 12px;
+            }
+
+                .nav-links a:hover {
+                    background-color: var(--primary-color);
+                    color: var(--secondary-color);
+                }
+
+        /* 配色切换按钮 */
+        .theme-toggle {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* 工具卡片区域 */
+        .tools-container {
+            width: 90%;
+            margin: 3rem auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .tool-card {
+            background-color: var(--card-bg);
+            border-radius: 25px; /* 大圆角卡片 */
+            padding: 2.5rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+            .tool-card h3 {
+                color: var(--primary-color);
+                font-size: 1.8rem;
+                border-bottom: 2px solid var(--primary-color);
+                padding-bottom: 0.8rem;
+                border-radius: 4px;
+            }
+
+            .tool-card p {
+                font-size: 1.1rem;
+                line-height: 1.6;
+                color: var(--text-color);
+            }
+
+        .tool-btn {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: auto; /* 按钮固定在卡片底部 */
+        }
+
+            .tool-btn:hover {
+                transform: translateY(-3px); /* 悬浮上移，高端交互 */
+                box-shadow: 0 4px 15px rgba(22, 93, 255, 0.3);
+            }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color);
+            font-size: 1rem;
+            margin-top: 3rem;
+        }
+
+        /* 响应式优化 */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .tool-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-links">
+            <!-- 首页跳转：指向index.html -->
+            <a href="index.html">首页</a>
+            <!-- 工具页跳转：当前页 -->
+            <a href="tool.html" class="active">工具</a>
+            <!-- 公告跳转外部链接 -->
+            <a href="https://forum.smart-teach.cn/" target="_blank">智教联盟</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle">切换配色</button>
+    </nav>
+
+    <!-- 工具卡片区域 -->
+    <section class="tools-container">
+        <!-- 工具1 -->
+        <div class="tool-card">
+            <h3>国家中小学智慧教育平台</h3>
+            <p>教育部官方公益平台，全学段免费优质教育资源全覆盖</p>
+            <button class="tool-btn" onclick="window.open('https://basic.smartedu.cn/', '_blank')">立即使用</button>
+        </div>
+
+        <!-- 工具2 -->
+        <div class="tool-card">
+            <h3>学习强国</h3>
+            <p>中宣部主管权威学习平台，海量免费资源</p>
+            <button class="tool-btn" onclick="window.open('https://www.xuexi.cn/', '_blank')">立即使用</button>
+        </div>
+
+        <!-- 工具3 -->
+        <div class="tool-card">
+            <h3>DeepSeek深度求索</h3>
+            <p>深度求索自研大模型，高效开源，国产 AI 先锋</p>
+            <button class="tool-btn" onclick="window.open('https://www.deepseek.com/', '_blank')">立即使用</button>
+        </div>
+
+        <!-- 工具4 -->
+        <div class="tool-card">
+            <h3>计算器</h3>
+            <p>在线计算器，无需下载</p>
+            <button class="tool-btn" onclick="window.open('https://onlinecalculator.cc/zh-hans', '_blank')">立即使用</button>
+        </div>
+
+        <!-- 工具5 -->
+        <div class="tool-card">
+            <h3>原神</h3>
+            <p>原神，启动！！！！！</p>
+            <button class="tool-btn" onclick="window.open('https://ys.mihoyo.com/?utm_source=yuanshen_web', '_blank')">立即使用</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>Powered By Yanyu Yunhang</p>
+    </footer>
+
+    <script>
+        // 同首页的配色切换逻辑（保证一致）
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        if (localStorage.getItem('nightMode') === 'true') {
+        body.classList.add('night-mode');
+        themeToggle.textContent = '切换为浅色模式';
+        } else {
+        themeToggle.textContent = '切换为深色模式';
+        }
+
+        themeToggle.addEventListener('click', () => {
+        body.classList.toggle('night-mode');
+        const isNight = body.classList.contains('night-mode');
+        localStorage.setItem('nightMode', isNight);
+        themeToggle.textContent = isNight ? '切换为浅色模式' : '切换为深色模式';
+        });
+
+        // 自动切换配色
+        function autoSwitchTheme() {
+        const now = new Date();
+        const hour = now.getHours();
+        if (hour >= 19 || hour < 5) {
+        body.classList.add('night-mode');
+        localStorage.setItem('nightMode', 'true');
+        themeToggle.textContent = '切换为浅色模式';
+        } else {
+        body.classList.remove('night-mode');
+        localStorage.setItem('nightMode', 'false');
+        themeToggle.textContent = '切换为深色模式';
+        }
+        }
+
+        autoSwitchTheme();
+        setInterval(autoSwitchTheme, 3600000);
+    </script>
+</body>
+</html>

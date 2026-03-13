@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班级工具 - 日历</title>
+    <style>
+        /* 统一设计语言 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft Yahei', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        /* 日间模式（蓝白） */
+        body {
+            --primary-color: #165DFF;
+            --secondary-color: #FFFFFF;
+            --text-color: #333333;
+            --bg-color: #F5F7FA;
+            --card-bg: #FFFFFF;
+            --border-color: #E5E9F2;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+            /* 夜间模式（黑金） */
+            body.night-mode {
+                --primary-color: #D4AF37;
+                --secondary-color: #1A1A1A;
+                --text-color: #F5F5F5;
+                --bg-color: #0A0A0A;
+                --card-bg: #2D2D2D;
+                --border-color: #444444;
+            }
+
+        /* 导航栏 */
+        .navbar {
+            background-color: var(--secondary-color);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            margin-right: 1rem;
+        }
+
+            .nav-links a:hover {
+                background-color: var(--primary-color);
+                color: var(--secondary-color);
+            }
+
+        .theme-toggle {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* 日历核心样式 */
+        .calendar-container {
+            width: 90%;
+            max-width: 800px;
+            margin: 3rem auto;
+            background-color: var(--card-bg);
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+            .calendar-header h2 {
+                color: var(--primary-color);
+                font-size: 1.8rem;
+            }
+
+        .calendar-btn {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .day {
+            padding: 1rem;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: var(--bg-color);
+        }
+
+            .day:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+
+        .today {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            display: block;
+            width: 150px;
+            margin: 2rem auto;
+            text-align: center;
+            text-decoration: none;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .day {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="tool.html">工具</a>
+            <a href="https://forum.smart-teach.cn/" target="_blank">智教联盟</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle">切换配色</button>
+    </nav>
+
+    <!-- 日历主体 -->
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <h2 id="calendar-title">2026年3月</h2>
+            <div>
+                <button class="calendar-btn" id="prev-month">上月</button>
+                <button class="calendar-btn" id="next-month">下月</button>
+            </div>
+        </div>
+        <div class="weekdays">
+            <div>日</div>
+            <div>一</div>
+            <div>二</div>
+            <div>三</div>
+            <div>四</div>
+            <div>五</div>
+            <div>六</div>
+        </div>
+        <div class="days" id="days-container"></div>
+    </div>
+
+    <!-- 返回按钮 -->
+    <a href="tool.html" class="back-btn">返回工具列表</a>
+
+    <footer>
+        <p>Powered By Yanyu Yunhang</p>
+    </footer>
+
+    <script>
+        // 主题切换逻辑（统一）
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        if (localStorage.getItem('nightMode') === 'true') {
+        body.classList.add('night-mode');
+        themeToggle.textContent = '切换为浅色模式';
+        } else {
+        themeToggle.textContent = '切换为深色模式';
+        }
+
+        themeToggle.addEventListener('click', () => {
+        body.classList.toggle('night-mode');
+        const isNight = body.classList.contains('night-mode');
+        localStorage.setItem('nightMode', isNight);
+        themeToggle.textContent = isNight ? '切换为浅色模式' : '切换为深色模式';
+        });
+
+        // 自动切换主题
+        function autoSwitchTheme() {
+        const now = new Date();
+        const hour = now.getHours();
+        if (hour >= 19 || hour < 5) {
+        body.classList.add('night-mode');
+        localStorage.setItem('nightMode', 'true');
+        themeToggle.textContent = '切换为浅色模式';
+        } else {
+        body.classList.remove('night-mode');
+        localStorage.setItem('nightMode', 'false');
+        themeToggle.textContent = '切换为深色模式';
+        }
+        }
+        autoSwitchTheme();
+        setInterval(autoSwitchTheme, 3600000);
+
+        // 日历核心逻辑
+        let currentDate = new Date();
+        const daysContainer = document.getElementById('days-container');
+        const calendarTitle = document.getElementById('calendar-title');
+        const prevMonthBtn = document.getElementById('prev-month');
+        const nextMonthBtn = document.getElementById('next-month');
+
+        // 渲染日历
+        function renderCalendar() {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+
+        // 更新标题
+        calendarTitle.textContent = `${year}年${month + 1}月`;
+
+        // 清空日期容器
+        daysContainer.innerHTML = '';
+
+        // 获取当月第一天
+        const firstDay = new Date(year, month, 1);
+        // 获取当月最后一天
+        const lastDay = new Date(year, month + 1, 0);
+        // 获取当月天数
+        const totalDays = lastDay.getDate();
+        // 获取第一天是星期几（0=周日）
+        const firstDayWeek = firstDay.getDay();
+
+        // 添加上月的空白天数
+        for (let i = 0; i < firstDayWeek; i++) {
+        const emptyDay = document.createElement('div');
+        emptyDay.classList.add('day');
+        daysContainer.appendChild(emptyDay);
+        }
+
+        // 添加当月天数
+        const today = new Date();
+        for (let i = 1; i <= totalDays; i++) {
+        const day = document.createElement('div');
+        day.classList.add('day');
+        day.textContent = i;
+
+        // 标记今天
+        if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+        day.classList.add('today');
+        }
+
+        daysContainer.appendChild(day);
+        }
+        }
+
+        // 切换月份
+        prevMonthBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar();
+        });
+
+        nextMonthBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar();
+        });
+
+        // 初始化渲染
+        renderCalendar();
+    </script>
+</body>
+</html>

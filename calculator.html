@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班级工具 - 计算器</title>
+    <style>
+        /* 统一设计语言 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft Yahei', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            --primary-color: #165DFF;
+            --secondary-color: #FFFFFF;
+            --text-color: #333333;
+            --bg-color: #F5F7FA;
+            --card-bg: #FFFFFF;
+            --border-color: #E5E9F2;
+            --input-text: #333333; /* 新增：输入框文字色（浅色） */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+            body.night-mode {
+                --primary-color: #D4AF37;
+                --secondary-color: #1A1A1A;
+                --text-color: #F5F5F5;
+                --bg-color: #0A0A0A;
+                --card-bg: #2D2D2D;
+                --border-color: #444444;
+                --input-text: #F5F5F5; /* 新增：输入框文字色（深色） */
+            }
+
+        /* 导航栏 */
+        .navbar {
+            background-color: var(--secondary-color);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            margin-right: 1rem;
+        }
+
+            .nav-links a:hover {
+                background-color: var(--primary-color);
+                color: var(--secondary-color);
+            }
+
+        .theme-toggle {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* 计算器核心样式 */
+        .calculator-container {
+            width: 90%;
+            max-width: 400px;
+            margin: 3rem auto;
+            background-color: var(--card-bg);
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .calc-display {
+            width: 100%;
+            height: 80px;
+            background-color: var(--bg-color);
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            text-align: right;
+            font-size: 1.8rem;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            color: var(--input-text) !important; /* 核心修复：强制继承主题文字色 */
+            caret-color: var(--primary-color); /* 优化：光标色适配主题主色 */
+            -webkit-appearance: none; /* 重置浏览器默认样式，避免覆盖 */
+        }
+
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .calc-btn {
+            padding: 1.2rem;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+            .calc-btn:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+
+        .operator {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+            .operator:hover {
+                opacity: 0.9;
+            }
+
+        .back-btn {
+            display: block;
+            width: 150px;
+            margin: 2rem auto;
+            text-align: center;
+            text-decoration: none;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .calc-btn {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="tool.html">工具</a>
+            <a href="https://forum.smart-teach.cn/" target="_blank">智教联盟</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle">切换配色</button>
+    </nav>
+
+    <!-- 计算器主体 -->
+    <div class="calculator-container">
+        <input type="text" class="calc-display" id="calc-display" readonly>
+        <div class="calc-buttons">
+            <button class="calc-btn" onclick="appendNumber('7')">7</button>
+            <button class="calc-btn" onclick="appendNumber('8')">8</button>
+            <button class="calc-btn" onclick="appendNumber('9')">9</button>
+            <button class="calc-btn operator" onclick="appendOperator('/')">÷</button>
+
+            <button class="calc-btn" onclick="appendNumber('4')">4</button>
+            <button class="calc-btn" onclick="appendNumber('5')">5</button>
+            <button class="calc-btn" onclick="appendNumber('6')">6</button>
+            <button class="calc-btn operator" onclick="appendOperator('*')">×</button>
+
+            <button class="calc-btn" onclick="appendNumber('1')">1</button>
+            <button class="calc-btn" onclick="appendNumber('2')">2</button>
+            <button class="calc-btn" onclick="appendNumber('3')">3</button>
+            <button class="calc-btn operator" onclick="appendOperator('-')">-</button>
+
+            <button class="calc-btn" onclick="appendNumber('0')">0</button>
+            <button class="calc-btn" onclick="appendNumber('.')">.</button>
+            <button class="calc-btn operator" onclick="calculate()">=</button>
+            <button class="calc-btn operator" onclick="appendOperator('+')">+</button>
+
+            <button class="calc-btn" onclick="clearDisplay()" style="grid-column: span 2;">C</button>
+            <button class="calc-btn" onclick="deleteLastChar()" style="grid-column: span 2;">←</button>
+        </div>
+    </div>
+
+    <!-- 返回按钮 -->
+    <a href="tool.html" class="back-btn">返回工具列表</a>
+
+    <footer>
+        <p>Powered By Yanyu Yunhang</p>
+    </footer>
+
+    <script>
+        // 主题切换逻辑（统一）
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        if (localStorage.getItem('nightMode') === 'true') {
+        body.classList.add('night-mode');
+        themeToggle.textContent = '切换为浅色模式';
+        } else {
+        themeToggle.textContent = '切换为深色模式';
+        }
+
+        themeToggle.addEventListener('click', () => {
+        body.classList.toggle('night-mode');
+        const isNight = body.classList.contains('night-mode');
+        localStorage.setItem('nightMode', isNight);
+        themeToggle.textContent = isNight ? '切换为浅色模式' : '切换为深色模式';
+        });
+
+        // 自动切换主题
+        function autoSwitchTheme() {
+        const now = new Date();
+        const hour = now.getHours();
+        if (hour >= 19 || hour < 5) {
+        body.classList.add('night-mode');
+        localStorage.setItem('nightMode', 'true');
+        themeToggle.textContent = '切换为浅色模式';
+        } else {
+        body.classList.remove('night-mode');
+        localStorage.setItem('nightMode', 'false');
+        themeToggle.textContent = '切换为深色模式';
+        }
+        }
+        autoSwitchTheme();
+        setInterval(autoSwitchTheme, 3600000);
+
+        // 计算器核心逻辑
+        const display = document.getElementById('calc-display');
+
+        // 追加数字
+        function appendNumber(num) {
+        display.value += num;
+        }
+
+        // 追加运算符
+        function appendOperator(op) {
+        display.value += op;
+        }
+
+        // 清空显示
+        function clearDisplay() {
+        display.value = '';
+        }
+
+        // 删除最后一个字符
+        function deleteLastChar() {
+        display.value = display.value.slice(0, -1);
+        }
+
+        // 计算结果
+        function calculate() {
+        try {
+        // 替换×÷为js识别的运算符
+        let expression = display.value.replace(/×/g, '*').replace(/÷/g, '/');
+        let result = eval(expression);
+        display.value = result;
+        } catch (error) {
+        display.value = '错误';
+        }
+        }
+    </script>
+</body>
+</html>

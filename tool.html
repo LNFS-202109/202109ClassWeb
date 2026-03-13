@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2021届9班班级网站 - 工具</title>
+    <style>
+        /* 原有样式保持不变 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft Yahei', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            --primary-color: #165DFF;
+            --secondary-color: #FFFFFF;
+            --text-color: #333333;
+            --bg-color: #F5F7FA;
+            --card-bg: #FFFFFF;
+            --border-color: #E5E9F2;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+            body.night-mode {
+                --primary-color: #D4AF37;
+                --secondary-color: #1A1A1A;
+                --text-color: #F5F5F5;
+                --bg-color: #0A0A0A;
+                --card-bg: #2D2D2D;
+                --border-color: #444444;
+            }
+
+        .navbar {
+            background-color: var(--secondary-color);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+            .nav-links a {
+                text-decoration: none;
+                color: var(--primary-color);
+                font-weight: 600;
+                font-size: 1.1rem;
+                padding: 0.5rem 1rem;
+                border-radius: 12px;
+            }
+
+                .nav-links a:hover {
+                    background-color: var(--primary-color);
+                    color: var(--secondary-color);
+                }
+
+        .theme-toggle {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .tools-container {
+            width: 90%;
+            margin: 3rem auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .tool-card {
+            background-color: var(--card-bg);
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+            .tool-card h3 {
+                color: var(--primary-color);
+                font-size: 1.8rem;
+                border-bottom: 2px solid var(--primary-color);
+                padding-bottom: 0.8rem;
+                border-radius: 4px;
+            }
+
+            .tool-card p {
+                font-size: 1.1rem;
+                line-height: 1.6;
+                color: var(--text-color);
+            }
+
+        .tool-btn {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: auto;
+        }
+
+            .tool-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 15px rgba(22, 93, 255, 0.3);
+            }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color);
+            font-size: 1rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .tool-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="tool.html" class="active">工具</a>
+            <a href="https://forum.smart-teach.cn/" target="_blank">智教联盟</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle">切换配色</button>
+    </nav>
+
+    <section class="tools-container">
+        <!-- 工具1：日历（修改跳转） -->
+        <div class="tool-card">
+            <h3>日历工具</h3>
+            <p>简洁易用的班级日历，支持查看当月日期、切换月份，标记今日，方便规划学习和班级活动。</p>
+            <button class="tool-btn" onclick="window.open('calendar.html', '_self')">立即使用</button>
+        </div>
+
+        <!-- 工具2：计算器（修改跳转） -->
+        <div class="tool-card">
+            <h3>在线计算器</h3>
+            <p>简洁实用的在线计算器，支持加减乘除运算，无需下载安装，直接在线使用，满足日常计算需求。</p>
+            <button class="tool-btn" onclick="window.open('calculator.html', '_self')">立即使用</button>
+        </div>
+
+        <!-- 工具3：番茄时钟（修改跳转） -->
+        <div class="tool-card">
+            <h3>番茄学习时钟</h3>
+            <p>专注学习的番茄时钟工具，支持25分钟专注、5/15分钟休息模式，帮助提升学习效率。</p>
+            <button class="tool-btn" onclick="window.open('pomodoro.html', '_self')">立即使用</button>
+        </div>
+
+        <!-- 工具4：保持不变 -->
+        <div class="tool-card">
+            <h3>智慧中小学</h3>
+            <p>国家中小学智慧教育平台由教育部主导，提供专业化、体系化的教育服务，促进基础教育优质均衡发展。</p>
+            <button class="tool-btn" onclick="window.open('https://basic.smartedu.cn/', '_blank')">立即使用</button>
+        </div>
+
+        <!-- 工具5：保持不变 -->
+        <div class="tool-card">
+            <h3>原神</h3>
+            <p>原神，启动！！！！！</p>
+            <button class="tool-btn" onclick="window.open('https://ys.mihoyo.com/?utm_source=yuanshen_web', '_blank')">立即使用</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>Powered By Yanyu Yunhang</p>
+    </footer>
+
+    <script>
+        // 原有主题切换逻辑保持不变
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        if (localStorage.getItem('nightMode') === 'true') {
+        body.classList.add('night-mode');
+        themeToggle.textContent = '切换为浅色模式';
+        } else {
+        themeToggle.textContent = '切换为深色模式';
+        }
+
+        themeToggle.addEventListener('click', () => {
+        body.classList.toggle('night-mode');
+        const isNight = body.classList.contains('night-mode');
+        localStorage.setItem('nightMode', isNight);
+        themeToggle.textContent = isNight ? '切换为浅色模式' : '切换为深色模式';
+        });
+
+        function autoSwitchTheme() {
+        const now = new Date();
+        const hour = now.getHours();
+        if (hour >= 19 || hour < 5) {
+        body.classList.add('night-mode');
+        localStorage.setItem('nightMode', 'true');
+        themeToggle.textContent = '切换为浅色模式';
+        } else {
+        body.classList.remove('night-mode');
+        localStorage.setItem('nightMode', 'false');
+        themeToggle.textContent = '切换为深色模式';
+        }
+        }
+
+        autoSwitchTheme();
+        setInterval(autoSwitchTheme, 3600000);
+    </script>
+</body>
+</html>
